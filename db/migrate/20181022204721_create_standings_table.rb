@@ -5,6 +5,6 @@ class CreateStandingsTable < ActiveRecord::Migration[5.0]
       t.integer :race_id
       t.integer :points
       t.boolean :wins
-    end 
+    end
   end
 end
