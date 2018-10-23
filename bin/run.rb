@@ -9,5 +9,6 @@ heidfeld = Driver.find(2)
 vettel = Driver.find(20)
 
 agp = Race.find(1)
+usgp = Race.find(62)
 binding.pry
 0
