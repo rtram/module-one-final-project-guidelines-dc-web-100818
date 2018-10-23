@@ -4,7 +4,7 @@ class Race < ActiveRecord::Base
 
   def driver_names
     self.drivers.collect do |driver|
-      "#{driver.first_name} #{driver.last_name}"
+      "#{driver.full_name}"
     end
   end
 
@@ -18,6 +18,10 @@ class Race < ActiveRecord::Base
     self.driver_nationality.each_with_object(Hash.new(0)) do |nat, counts|
       counts[nat] += 1
     end
+  end
+
+  def race_winner
+    "#{self.driver_names[0]} won the #{self.circuit}."
   end
 
 end
