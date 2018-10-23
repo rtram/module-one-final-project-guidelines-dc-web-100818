@@ -45,8 +45,26 @@ def driver_search(input)
     driver_obj = Driver.find(driver[0].id)
     puts "#{driver_obj.full_name} has been found!"
     driver_obj
+  elsif driver.length > 1
+    puts "The following drivers have been found!"
+    puts "Please enter the number next to the driver you meant."
+    driver_obj = multiple_drivers_logic(driver)
+    binding.pry
+    driver_obj
+
   end
-  # binding.pry
+end
+
+def multiple_drivers_logic(driver)
+  multi_driver_arr = driver.collect do |n|
+    Driver.find(n.id)
+  end
+  multi_driver_arr.each_with_index do |n, index|
+    puts "#{index + 1}. #{n.full_name}"
+  end
+  input = user_input.to_i
+  driver_obj = multi_driver_arr[input - 1]
+  return driver_obj
 end
 
 def circuit_search(input)
