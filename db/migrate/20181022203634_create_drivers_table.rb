@@ -5,6 +5,6 @@ class CreateDriversTable < ActiveRecord::Migration[5.0]
       t.string :last_name
       t.date :date_of_birth
       t.string :nationality
-    end 
+    end
   end
 end
