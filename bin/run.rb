@@ -24,9 +24,8 @@ def driver_or_circuits(input)
     driver_selection = Driver.driver_search(input)
     Driver.run_driver(driver_selection)
   elsif ["Circuit", "circuit", "CIRCUIT", "Circuits", "circuits"].include? (input)
-    puts "Please enter a circuit name."
-    input = gets.chomp
-    circuit_search(input)
+    puts "Below is a list of the top ten most popular circuits.  Enter the number next to the circuit you want, or type 'other' for the full list of circuits."
+    Race.top_ten
     # run_race
   end
 end
