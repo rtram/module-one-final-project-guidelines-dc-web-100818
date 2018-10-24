@@ -4,58 +4,62 @@ class Driver < ActiveRecord::Base
 
 #COMMAND LINE METHODS-----------------------------------------------------------
 
-  def self.driver_search(input)
-    driver = Driver.select("id").where(["first_name LIKE ? OR last_name LIKE ?",
-      "%#{input}%", "%#{input}%"])
-    if driver.length == 1
-      driver_obj = Driver.find(driver[0].id)
-      puts "#{driver_obj.full_name} has been found!"
-      driver_obj
-    elsif driver.length > 1
-      puts "The following drivers have been found!"
-      puts "Please enter the number next to the driver you meant."
-      driver_obj = multiple_drivers_logic(driver)
-      puts "You have selected #{driver_obj.full_name}!"
-      driver_obj
+  def self.driver_search
+    input = nil
+    until input == "exit"
+      puts "Please enter a driver name, or type 'exit' to go back to the main screen."
+      input = gets.chomp
+      driver = Driver.select("id").where(["first_name LIKE ? OR last_name LIKE ?",
+        "%#{input}%", "%#{input}%"])
+      if driver.length == 1
+        driver_obj = Driver.find(driver[0].id)
+        puts "#{driver_obj.full_name} has been found!"
+        driver_obj.driver_query_until_loop
+      elsif driver.length > 1
+        puts "The following drivers have been found!"
+        puts "Please enter the number next to the driver you meant."
+        driver_obj = multiple_drivers_logic(driver)
+        puts "You have selected #{driver_obj.full_name}!"
+        driver_obj.driver_query_until_loop
+      elsif input == "exit"
+        return "exit"
+      else
+        puts "#{input} does not exist in this database.  Please enter a valid name."
+      end
     end
   end
 
-  def self.run_driver(driver)
-    puts "What would you like know about #{driver.full_name}? Select a number below."
-    puts "1. How many career wins does #{driver.full_name} have?"
-    puts "2. How many career losses does #{driver.full_name} have?"
-    puts "3. How many wins has #{driver.full_name} had in a given year?"
-    puts "4. Exit to main menu."
-
-    driver.driver_query
+  def driver_query_until_loop
+    input = nil
+    until input == "exit"
+      input = self.driver_query
+    end
   end
 
   def driver_query
+    self.query_prompt
     input = gets.chomp
     if input == "1"
       puts "-----------------------------------------"
       puts self.wins
       puts "-----------------------------------------"
-      Driver.run_driver(self)
+
     elsif input == "2"
       puts "-----------------------------------------"
       puts self.losses
       puts "-----------------------------------------"
-      Driver.run_driver(self)
     elsif input == "3"
       puts "-----------------------------------------"
       puts "Which year would you like to search?"
       puts "-----------------------------------------"
       input2 = gets.chomp
       puts self.wins_for_year(input2)
-      Driver.run_driver(self)
     elsif input == "4"
-      main_menu
+      return "exit"
     else
       puts "-----------------------------------------"
       puts "Oops that is not an option, please try again."
       puts "-----------------------------------------"
-      Driver.run_driver(self)
     end
   end
 
@@ -108,7 +112,16 @@ class Driver < ActiveRecord::Base
     end
     input = user_input.to_i
     driver_obj = multi_driver_arr[input - 1]
-      return driver_obj
+    driver_obj
+  end
+
+  def query_prompt
+    puts "What would you like know about #{self.full_name}? Select a number below."
+    puts "1. How many career wins does #{self.full_name} have?"
+    puts "2. How many career losses does #{self.full_name} have?"
+    puts "3. How many wins has #{self.full_name} had in a given year?"
+    puts "-----------------------------------------"
+    puts "4. Search for another driver."
   end
 
 end

@@ -5,12 +5,9 @@ class Circuit < ActiveRecord::Base
 #COMMAND LINE METHODS
 
   def self.circuit_search
-    puts "-----------------------------------------"
-    Circuit.top_ten.each_with_index do |circ, index|
-      puts "#{index + 1}. #{circ.name}"
-    end
-      puts "-----------------------------------------"
-      puts "11. Full List of Circuits"
+    input = nil
+    until input == "exit"
+      Circuit.circuit_search_prompt
       input = gets.chomp
       input_integer = input.to_i
       if input_integer.between?(1,10)
@@ -18,19 +15,21 @@ class Circuit < ActiveRecord::Base
         circuit_obj
       elsif input_integer == 11
         Circuit.circuit_extended_search
-
       end
+    end
   end
+
+  def circuit_query_until_loop
+
+  end 
 
   def self.run_circuit(circuit)
     puts "What would you like know about #{circuit.name}? Select a number below."
     puts "1. How many races has taken place at #{circuit.name}?"
     puts "2. When was the first race held at #{circuit.name}?"
     puts "3. When was the most recent race held at #{circuit.name}?"
-    puts "4. Exit to main menu."
-
+    puts "4. Exit to circuit menu."
     circuit.circuit_query
-
   end
 
   def circuit_query
@@ -78,6 +77,19 @@ class Circuit < ActiveRecord::Base
 
 
 #HELPER METHODS ----------------------------------------------------------------
+
+  def self.circuit_search_prompt
+    puts "Below is a list of the top ten most popular circuits.  Enter the number next to the circuit you want, or type 'other' for the full list of circuits."
+    puts "-----------------------------------------"
+    Circuit.top_ten.each_with_index do |circ, index|
+      puts "#{index + 1}. #{circ.name}"
+    end
+    puts "-----------------------------------------"
+    puts "11. Full List of Circuits"
+    puts "-----------------------------------------"
+    puts "Enter 'exit' to go back to the main menu."
+  end
+
   def self.top_ten
     Circuit.circuit_sort[0...10]
   end

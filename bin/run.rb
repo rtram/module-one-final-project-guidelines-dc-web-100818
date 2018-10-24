@@ -17,14 +17,11 @@ def user_input
 end
 
 
-def driver_or_circuits(input)
+def driver_or_circuits
+    input = user_input
   if ["F1 Driver", "driver", "DRIVER", "drivers", "DRIVERS"].include? (input)
-    puts "Please enter a driver name."
-    input = gets.chomp
-    driver_selection = Driver.driver_search(input)
-    Driver.run_driver(driver_selection)
+    Driver.driver_search
   elsif ["Circuit", "circuit", "CIRCUIT", "Circuits", "circuits"].include? (input)
-    puts "Below is a list of the top ten most popular circuits.  Enter the number next to the circuit you want, or type 'other' for the full list of circuits."
     circuit_selection = Circuit.circuit_search
     Circuit.run_circuit(circuit_selection)
   end
@@ -32,8 +29,7 @@ end
 
 def main_menu
   category_prompt
-  input = user_input
-  driver_or_circuits(input)
+  driver_or_circuits
 end
 
 def runner
@@ -41,14 +37,9 @@ def runner
 
   main_menu
 
-
 end
 
-lewis = Driver.find(1)
-
-#runner
-
-
+lewis = Driver.all[0]
 
 binding.pry
 0
