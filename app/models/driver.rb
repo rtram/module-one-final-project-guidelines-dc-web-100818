@@ -26,14 +26,16 @@ class Driver < ActiveRecord::Base
     won_races = self.races.select do |race|
         arr.include? (race.id)
     end
-    won_races.select do |race|
-      race.date.year == year
+
+    won_races.select! do |race|
+      race.date.year.to_s == year
     end
-    # if won_races.length > 0
-    #   "#{self.first_name} #{self.last_name} won #{won_races.length} in #{year}."
-    # else
-    #   "#{self.first_name} #{self.last_name} did not win any races in #{year}."
-    # end
+
+    if won_races.length > 0
+      "#{self.first_name} #{self.last_name} won #{won_races.length} in #{year}."
+    else
+      "#{self.first_name} #{self.last_name} did not win any races in #{year}."
+    end
   end
 
   def self.driver_search(input)
@@ -68,8 +70,30 @@ class Driver < ActiveRecord::Base
     puts "1. How many career wins does #{driver.full_name} have?"
     puts "2. How many career losses does #{driver.full_name} have?"
     puts "3. How many wins has #{driver.full_name} had in a given year?"
+    puts "4. Exit to main menu."
 
+    driver.driver_query
   end
 
+  def driver_query
+    input = gets.chomp
+    if input == "1"
+      self.wins
+      Driver.run_driver(self)
+    elsif input == "2"
+      self.losses
+      Driver.run_driver(self)
+    elsif input == "3"
+      puts "Which year would you like to search?"
+      input2 = gets.chomp
+      self.wins_for_year(input2)
+      Driver.run_driver(self)
+    elsif input == "4"
+      main_menu
+    else
+      puts "Oops that is not an option, please try again."
+      Driver.run_driver(self)
+    end
+  end
 
 end

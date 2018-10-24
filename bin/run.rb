@@ -31,17 +31,21 @@ def driver_or_circuits(input)
   end
 end
 
+def main_menu
+  category_prompt
+  input = user_input
+  driver_or_circuits(input)
+end
+
 def runner
-greeting
+  greeting
 
-category_prompt
-
-input = user_input
-
-driver_or_circuits(input)
+  main_menu
 
 
 end
+
+lewis = Driver.find(1)
 
 #runner
 
