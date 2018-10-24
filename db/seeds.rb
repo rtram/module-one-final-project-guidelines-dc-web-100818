@@ -2,7 +2,7 @@ require "csv"
 require 'pry'
 
 
-CSV.foreach("/Users/flatironschool/development/final_project/module-one-final-project-guidelines-dc-web-100818/lib/csv/drivers.csv") do |row|
+CSV.foreach("lib/csv/drivers.csv") do |row|
   Driver.create(
     id: row[0],
     first_name: row[4],
@@ -12,22 +12,29 @@ CSV.foreach("/Users/flatironschool/development/final_project/module-one-final-pr
   )
 end
 
-CSV.foreach("/Users/flatironschool/development/final_project/module-one-final-project-guidelines-dc-web-100818/lib/csv/races.csv") do |row|
-# binding.pry
+CSV.foreach("lib/csv/races.csv") do |row|
   Race.create(
     id: row[0],
-    circuit: row[4],
+    circuit_id: row[3],
+    circuit_name: row[4],
     date: row[5]
   )
 end
 
-CSV.foreach("/Users/flatironschool/development/final_project/module-one-final-project-guidelines-dc-web-100818/lib/csv/standings.csv") do |row|
-  # binding.pry
+CSV.foreach("lib/csv/standings.csv") do |row|
   Standing.create(
     id: row[0],
     driver_id: row[2],
     race_id: row[1],
-    points: row[3],
     wins: row[6]
+  )
+end
+
+CSV.foreach("lib/csv/circuits.csv") do |row|
+  Circuit.create(
+    id: row[0],
+    name: row[2],
+    city: row[3],
+    country: row[4]
   )
 end

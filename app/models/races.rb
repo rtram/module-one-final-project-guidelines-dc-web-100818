@@ -1,6 +1,7 @@
 class Race < ActiveRecord::Base
   has_many :standings
   has_many :drivers, through: :standings
+  belongs_to :circuit
 
 #CATEGORY PROMPT METHODS
 #****************************************************************
