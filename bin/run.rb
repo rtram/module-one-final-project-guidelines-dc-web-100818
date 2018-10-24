@@ -21,8 +21,8 @@ def driver_or_circuits(input)
   if ["F1 Driver", "driver", "DRIVER", "drivers", "DRIVERS"].include? (input)
     puts "Please enter a driver name."
     input = gets.chomp
-    Driver.driver_search(input)
-    # run_driver
+    driver_selection = Driver.driver_search(input)
+    Driver.run_driver(driver_selection)
   elsif ["Circuit", "circuit", "CIRCUIT", "Circuits", "circuits"].include? (input)
     puts "Please enter a circuit name."
     input = gets.chomp

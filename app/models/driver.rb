@@ -46,7 +46,7 @@ class Driver < ActiveRecord::Base
       puts "The following drivers have been found!"
       puts "Please enter the number next to the driver you meant."
       driver_obj = multiple_drivers_logic(driver)
-      binding.pry
+      puts "You have selected #{driver_obj.full_name}!"
       driver_obj
     end
   end
@@ -63,10 +63,13 @@ class Driver < ActiveRecord::Base
       return driver_obj
   end
 
-  # def run_driver(driver)
-  #   puts "Driver Commands"
-  #   puts ""
-  # end
+  def self.run_driver(driver)
+    puts "What would you like know about #{driver.full_name}? Select a number below."
+    puts "1. How many career wins does #{driver.full_name} have?"
+    puts "2. How many career losses does #{driver.full_name} have?"
+    puts "3. How many wins has #{driver.full_name} had in a given year?"
+
+  end
 
 
 end
