@@ -2,6 +2,8 @@ class Circuit < ActiveRecord::Base
   has_many :races
   has_many :standings, through: :races
 
+#COMMAND LINE METHODS
+
   def self.circuit_search
     puts "-----------------------------------------"
     Circuit.top_ten.each_with_index do |circ, index|
@@ -114,21 +116,3 @@ class Circuit < ActiveRecord::Base
   end
 
 end
-
-
-
-
-# def self.driver_search(input)
-#   driver = Driver.select("id").where(["first_name LIKE ? OR last_name LIKE ?", "%#{input}%", "%#{input}%"])
-#   if driver.length == 1
-#     driver_obj = Driver.find(driver[0].id)
-#     puts "#{driver_obj.full_name} has been found!"
-#     driver_obj
-#   elsif driver.length > 1
-#     puts "The following drivers have been found!"
-#     puts "Please enter the number next to the driver you meant."
-#     driver_obj = multiple_drivers_logic(driver)
-#     puts "You have selected #{driver_obj.full_name}!"
-#     driver_obj
-#   end
-# end
