@@ -20,9 +20,62 @@ class Circuit < ActiveRecord::Base
       end
   end
 
+  def self.run_circuit(circuit)
+    puts "What would you like know about #{circuit.name}? Select a number below."
+    puts "1. How many races has taken place at #{circuit.name}?"
+    puts "2. When was the first race held at #{circuit.name}?"
+    puts "3. When was the most recent race held at #{circuit.name}?"
+    puts "4. Exit to main menu."
+
+    circuit.circuit_query
+
+  end
+
+  def circuit_query
+    input = gets.chomp
+    if input == "1"
+      puts "-----------------------------------------"
+      puts self.race_count
+      puts "-----------------------------------------"
+      Circuit.run_circuit(self)
+    elsif input == "2"
+      puts "-----------------------------------------"
+      puts self.first_race
+      puts "-----------------------------------------"
+      Circuit.run_circuit(self)
+    elsif input == "3"
+      puts "-----------------------------------------"
+      puts self.most_recent_race
+      puts "-----------------------------------------"
+      Circuit.run_circuit(self)
+    elsif input == "4"
+      main_menu
+    else
+      puts "-----------------------------------------"
+      puts "Oops that is not an option, please try again."
+      puts "-----------------------------------------"
+      Circuit.run_circuit(self)
+    end
+  end
 
 
-#HELPER METHODS
+
+
+#INSTANCE METHODS --------------------------------------------------------------
+  def race_count
+     "#{self.races.length} races have occurred at #{self.name}."
+  end
+
+  def first_race
+    "The first race at #{self.name} was on #{self.circuit_by_date[0].date}."
+  end
+
+  def most_recent_race
+    "The most recent date at #{self.name} was on #{self.circuit_by_date[-1].date}."
+  end
+
+
+#HELPER METHODS ----------------------------------------------------------------
   def self.top_ten
     Circuit.circuit_sort[0...10]
   end
@@ -54,6 +107,10 @@ class Circuit < ActiveRecord::Base
       Circuit.circuit_extended_search
     end
     binding.pry
+  end
+
+  def circuit_by_date
+    self.races.sort_by {|race| race.date}
   end
 
 end

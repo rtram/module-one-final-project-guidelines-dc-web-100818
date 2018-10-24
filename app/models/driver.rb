@@ -78,20 +78,28 @@ class Driver < ActiveRecord::Base
   def driver_query
     input = gets.chomp
     if input == "1"
+      puts "-----------------------------------------"
       puts self.wins
+      puts "-----------------------------------------"
       Driver.run_driver(self)
     elsif input == "2"
+      puts "-----------------------------------------"
       puts self.losses
+      puts "-----------------------------------------"
       Driver.run_driver(self)
     elsif input == "3"
+      puts "-----------------------------------------"
       puts "Which year would you like to search?"
+      puts "-----------------------------------------"
       input2 = gets.chomp
       puts self.wins_for_year(input2)
       Driver.run_driver(self)
     elsif input == "4"
       main_menu
     else
+      puts "-----------------------------------------"
       puts "Oops that is not an option, please try again."
+      puts "-----------------------------------------"
       Driver.run_driver(self)
     end
   end
