@@ -21,7 +21,7 @@ class Driver < ActiveRecord::Base
         driver_obj = multiple_drivers_logic(driver)
         puts "You have selected #{driver_obj.full_name}!"
         input = driver_obj.driver_query_until_loop
-        return input
+        input
       elsif input == "exit"
         return "exit"
       else

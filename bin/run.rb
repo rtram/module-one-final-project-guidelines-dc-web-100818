@@ -32,9 +32,12 @@ require_relative '../config/environment'
         input = Driver.driver_search
       end
       input
-      # binding.pry
     elsif ["Circuit", "circuit", "CIRCUIT", "Circuits", "circuits"].include? (input)
-      Circuit.circuit_search
+      input = nil
+      until input == "exit"
+        input = Circuit.circuit_search
+      end
+      input
     elsif input == "exit"
       input
     end
