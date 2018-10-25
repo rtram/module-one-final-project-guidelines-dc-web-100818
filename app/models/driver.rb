@@ -2,39 +2,57 @@ class Driver < ActiveRecord::Base
   has_many :standings
   has_many :races, through: :standings
 
-#COMMAND LINE METHODS-----------------------------------------------------------
+#2nd Level Down Driver Menu-----------------------------------------------------
 
   def self.driver_search
-    input = nil
-    until input == "exit"
       puts "Please enter a driver name, or type 'exit' to go back to the main screen."
       input = gets.chomp
       driver = Driver.select("id").where(["first_name LIKE ? OR last_name LIKE ?",
         "%#{input}%", "%#{input}%"])
       if driver.length == 1
         driver_obj = Driver.find(driver[0].id)
+        binding.pry
         puts "#{driver_obj.full_name} has been found!"
-        driver_obj.driver_query_until_loop
+        input = driver_obj.driver_query_until_loop
+        return input
       elsif driver.length > 1
         puts "The following drivers have been found!"
         puts "Please enter the number next to the driver you meant."
         driver_obj = multiple_drivers_logic(driver)
         puts "You have selected #{driver_obj.full_name}!"
-        driver_obj.driver_query_until_loop
+        input = driver_obj.driver_query_until_loop
+        return input
       elsif input == "exit"
         return "exit"
       else
         puts "#{input} does not exist in this database.  Please enter a valid name."
       end
     end
+
+
+  def self.multiple_drivers_logic(driver)
+    multi_driver_arr = driver.collect do |n|
+      Driver.find(n.id)
+    end
+    multi_driver_arr.each_with_index do |n, index|
+      puts "#{index + 1}. #{n.full_name}"
+    end
+    input = (gets.chomp).to_i
+    driver_obj = multi_driver_arr[input - 1]
+    driver_obj
   end
+
+  #3rd Level Down Driver Stats Menu --------------------------------------------
 
   def driver_query_until_loop
     input = nil
-    until input == "exit"
+    until ["back", "exit"].include? input
       input = self.driver_query
+      input
     end
+    return input
   end
+
 
   def driver_query
     self.query_prompt
@@ -55,12 +73,24 @@ class Driver < ActiveRecord::Base
       input2 = gets.chomp
       puts self.wins_for_year(input2)
     elsif input == "4"
+      return "back"
+    elsif input == "5"
       return "exit"
     else
       puts "-----------------------------------------"
       puts "Oops that is not an option, please try again."
       puts "-----------------------------------------"
     end
+  end
+
+  def query_prompt
+    puts "What would you like know about #{self.full_name}? Select a number below."
+    puts "1. How many career wins does #{self.full_name} have?"
+    puts "2. How many career losses does #{self.full_name} have?"
+    puts "3. How many wins has #{self.full_name} had in a given year?"
+    puts "-----------------------------------------"
+    puts "4. Go back to the Driver Search to look for another driver."
+    puts "5. Exit database."
   end
 
 
@@ -100,28 +130,6 @@ class Driver < ActiveRecord::Base
     end
   end
 
+end
 
 #HELPER METHODS-----------------------------------------------------------------
-
-  def self.multiple_drivers_logic(driver)
-    multi_driver_arr = driver.collect do |n|
-      Driver.find(n.id)
-    end
-    multi_driver_arr.each_with_index do |n, index|
-      puts "#{index + 1}. #{n.full_name}"
-    end
-    input = user_input.to_i
-    driver_obj = multi_driver_arr[input - 1]
-    driver_obj
-  end
-
-  def query_prompt
-    puts "What would you like know about #{self.full_name}? Select a number below."
-    puts "1. How many career wins does #{self.full_name} have?"
-    puts "2. How many career losses does #{self.full_name} have?"
-    puts "3. How many wins has #{self.full_name} had in a given year?"
-    puts "-----------------------------------------"
-    puts "4. Search for another driver."
-  end
-
-end
