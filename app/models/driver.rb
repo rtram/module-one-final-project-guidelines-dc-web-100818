@@ -49,7 +49,7 @@ class Driver < ActiveRecord::Base
 
   def driver_query_until_loop
     input = nil
-    until ["back", "exit"].include? input
+    until ["back1", "exit"].include? input
       input = self.driver_query
       input
     end
@@ -89,7 +89,7 @@ class Driver < ActiveRecord::Base
       puts self.favorite_circuit
       puts "-----------------------------------------"
     elsif input == "7"
-      return "back"
+      return "back1"
     elsif input == "8"
       return "exit"
     else

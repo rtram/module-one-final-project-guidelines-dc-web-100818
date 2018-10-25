@@ -61,7 +61,7 @@ class Circuit < ActiveRecord::Base
 
     def circuit_query_until_loop
       input = nil
-      until ["back", "exit"].include? input
+      until ["back1", "exit"].include? input
         input = self.circuit_query
         input
       end
@@ -76,7 +76,7 @@ class Circuit < ActiveRecord::Base
     puts "3. When was the most recent race held at #{self.name}?"
     puts "4. Where is this circuit located?"
     puts "5. Who won the last race that took place at #{self.name}?"
-    puts "6. Go back to the main."
+    puts "6. Go back to the circuit list."
     puts "7. Exit database."
   end
 
@@ -105,7 +105,7 @@ class Circuit < ActiveRecord::Base
       puts self.most_recent_winner
       puts "-----------------------------------------"
     elsif input == "6"
-      return "back"
+      return "back1"
     elsif input == "7"
       return "exit"
     else
