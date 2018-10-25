@@ -5,23 +5,27 @@ class Circuit < ActiveRecord::Base
 #COMMAND LINE METHODS
 
   def self.circuit_search
-      Circuit.circuit_search_prompt
-      input = gets.chomp
-      input_integer = input.to_i
-      if input_integer.between?(1,10)
-        circuit_obj = Circuit.circuit_obj_return(input_integer)
-        circuit_obj.circuit_query_until_loop
-      elsif input_integer == 11
-        circuit_obj = Circuit.circuit_extended_search
-        circuit_obj.circuit_query_until_loop
-      elsif input == "exit"
-        return "exit"
-      end
+    Circuit.circuit_search_prompt
+    input = gets.chomp
+    puts "-----------------------------------------"
+    input_integer = input.to_i
+    if input_integer.between?(1,10)
+      circuit_obj = Circuit.circuit_obj_return(input_integer)
+      circuit_obj.circuit_query_until_loop
+    elsif input_integer == 11
+      circuit_obj = Circuit.circuit_extended_search
+      circuit_obj.circuit_query_until_loop
+    elsif input == "back"
+      return "back"
+    elsif input == "exit"
+      return "exit"
+    end
   end
 
   def self.circuit_search_prompt
-    puts "Below is a list of the top ten most popular circuits.  Enter the number of the circuit you want."
-    puts "If not, type 'exit' to leave database."
+    puts "-----------------------------------------"
+    puts "Below is a list of the top ten most popular circuits.  Please enter the number associated with a circuit below,"
+    puts "type 'exit' to leave the database, or type 'back' to return to the main screen."
     puts "-----------------------------------------"
     Circuit.top_ten.each_with_index do |circ, index|
       puts "#{index + 1}. #{circ.name}"
@@ -38,12 +42,12 @@ class Circuit < ActiveRecord::Base
   end
 
   def self.circuit_extended_search
-    puts "-----------------------------------------"
     Circuit.circuit_sort.each_with_index do |circ, index|
       puts "#{index + 1}. #{circ.name}"
     end
     puts "-----------------------------------------"
     input = gets.chomp
+    puts "-----------------------------------------"
     input_integer = input.to_i
     if input_integer.between?(1,73)
       circuit_obj = Circuit.circuit_obj_return(input_integer)
@@ -69,14 +73,15 @@ class Circuit < ActiveRecord::Base
     puts "1. How many races has taken place at #{self.name}?"
     puts "2. When was the first race held at #{self.name}?"
     puts "3. When was the most recent race held at #{self.name}?"
-    puts "-----------------------------------------"
     puts "4. Go back to the Circuit Search to look for another circuit."
     puts "5. Exit database."
   end
 
   def circuit_query
     self.circuit_query_prompt
+    puts "-----------------------------------------"
     input = gets.chomp
+    puts "-----------------------------------------"
     if input == "1"
       puts "-----------------------------------------"
       puts self.race_count
@@ -129,5 +134,5 @@ class Circuit < ActiveRecord::Base
     self.races.sort_by {|race| race.date}
   end
 
-
+  
 end

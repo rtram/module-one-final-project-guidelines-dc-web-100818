@@ -5,13 +5,14 @@ class Driver < ActiveRecord::Base
 #2nd Level Down Driver Menu-----------------------------------------------------
 
   def self.driver_search
-      puts "Please enter a driver name, or type 'exit' to go back to the main screen."
+      puts "Please enter a driver name to search, type 'exit' to leave the database, or type 'back' to return to the main screen."
+      puts "-----------------------------------------"
       input = gets.chomp
+      puts "-----------------------------------------"
       driver = Driver.select("id").where(["first_name LIKE ? OR last_name LIKE ?",
         "%#{input}%", "%#{input}%"])
       if driver.length == 1
         driver_obj = Driver.find(driver[0].id)
-        binding.pry
         puts "#{driver_obj.full_name} has been found!"
         input = driver_obj.driver_query_until_loop
         return input
@@ -22,6 +23,8 @@ class Driver < ActiveRecord::Base
         puts "You have selected #{driver_obj.full_name}!"
         input = driver_obj.driver_query_until_loop
         input
+      elsif input == "back"
+        return "back"
       elsif input == "exit"
         return "exit"
       else
@@ -56,7 +59,9 @@ class Driver < ActiveRecord::Base
 
   def driver_query
     self.query_prompt
+    puts "-----------------------------------------"
     input = gets.chomp
+    puts "-----------------------------------------"
     if input == "1"
       puts "-----------------------------------------"
       puts self.wins
@@ -85,10 +90,10 @@ class Driver < ActiveRecord::Base
 
   def query_prompt
     puts "What would you like know about #{self.full_name}? Select a number below."
+    puts ""
     puts "1. How many career wins does #{self.full_name} have?"
     puts "2. How many career losses does #{self.full_name} have?"
     puts "3. How many wins has #{self.full_name} had in a given year?"
-    puts "-----------------------------------------"
     puts "4. Go back to the Driver Search to look for another driver."
     puts "5. Exit database."
   end

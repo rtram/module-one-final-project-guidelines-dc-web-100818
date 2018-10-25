@@ -28,13 +28,13 @@ require_relative '../config/environment'
     input = gets.chomp
     if ["F1 Driver", "driver", "DRIVER", "drivers", "DRIVERS"].include? (input)
       input = nil
-      until input == "exit"
+      until ["back", "exit"].include? input
         input = Driver.driver_search
       end
       input
     elsif ["Circuit", "circuit", "CIRCUIT", "Circuits", "circuits"].include? (input)
       input = nil
-      until input == "exit"
+      until ["back", "exit"].include? input
         input = Circuit.circuit_search
       end
       input
