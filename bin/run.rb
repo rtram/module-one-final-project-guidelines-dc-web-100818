@@ -17,6 +17,8 @@ require_relative '../config/environment'
   end
 
   def main_menu
+    greeting
+
     category_prompt
     input = gets.chomp
     if ["F1 Driver", "driver", "DRIVER", "drivers", "DRIVERS"].include? (input)
@@ -33,6 +35,10 @@ require_relative '../config/environment'
       input
     elsif input == "exit"
       input
+    else
+      puts "-----------------------------------------"
+      puts "Invalid command, please type in 'driver' or 'circuit'.'"
+      puts "-----------------------------------------"
     end
   end
 
@@ -41,7 +47,6 @@ require_relative '../config/environment'
   end
 
   def runner
-    greeting
 
     input = nil
     while input != "exit"
