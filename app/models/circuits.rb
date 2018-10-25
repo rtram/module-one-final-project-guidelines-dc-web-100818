@@ -76,7 +76,7 @@ class Circuit < ActiveRecord::Base
     puts "3. When was the most recent race held at #{self.name}?"
     puts "4. Where is this circuit located?"
     puts "5. Who won the last race that took place at #{self.name}?"
-    puts "6. Go back to the Circuit Search to look for another circuit."
+    puts "6. Go back to the main."
     puts "7. Exit database."
   end
 
@@ -134,7 +134,7 @@ class Circuit < ActiveRecord::Base
 
   def most_recent_winner
     winner = Driver.find(self.circuit_by_date[-1].standings[0].driver_id).full_name
-    puts "The most recent winner at #{self.name} was #{winner}."
+    "The most recent winner at #{self.name} was #{winner}."
   end
 
 #HELPER METHODS ----------------------------------------------------------------

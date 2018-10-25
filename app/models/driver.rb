@@ -61,7 +61,6 @@ class Driver < ActiveRecord::Base
     self.query_prompt
     puts "-----------------------------------------"
     input = gets.chomp
-    puts "-----------------------------------------"
     if input == "1"
       puts "-----------------------------------------"
       puts self.wins
@@ -78,8 +77,20 @@ class Driver < ActiveRecord::Base
       input2 = gets.chomp
       puts self.wins_for_year(input2)
     elsif input == "4"
-      return "back"
+      puts "-----------------------------------------"
+      puts self.nationality
+      puts "-----------------------------------------"
     elsif input == "5"
+      puts "-----------------------------------------"
+      puts self.date_of_birth
+      puts "-----------------------------------------"
+    elsif input == "6"
+      puts "-----------------------------------------"
+      puts self.favorite_circuit
+      puts "-----------------------------------------"
+    elsif input == "7"
+      return "back"
+    elsif input == "8"
       return "exit"
     else
       puts "-----------------------------------------"
@@ -94,20 +105,16 @@ class Driver < ActiveRecord::Base
     puts "1. How many career wins does #{self.full_name} have?"
     puts "2. How many career losses does #{self.full_name} have?"
     puts "3. How many wins has #{self.full_name} had in a given year?"
-    puts "4. Go back to the Driver Search to look for another driver."
-    puts "5. Exit database."
+    puts "4. What is #{self.full_name}'s nationality?"
+    puts "5. What is #{self.full_name}'s' date of birth?"
+    puts "6. Which circuit has #{self.full_name} raced on the most?"
+    puts "7. Go back to the Driver Search to look for another driver."
+    puts "8. Exit database."
   end
 
 
 #INSTANCE METHODS --------------------------------------------------------------
 
-  def full_name
-    "#{self.first_name} #{self.last_name}"
-  end
-
-  def win_array
-    win_arr = self.standings.select {|result| result.wins == true}
-  end
 
   def wins
     win_arr = self.win_array
@@ -135,6 +142,21 @@ class Driver < ActiveRecord::Base
     end
   end
 
-end
+  def favorite_circuit
+    arr = Driver.all[0].races.collect {|race| race.circuit_name}
+    faves = arr.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
+    sorted_faves = faves.sort_by(&:last).reverse
+    "#{self.full_name}'s loves racing at the #{sorted_faves[0][0]}."
+  end
+
 
 #HELPER METHODS-----------------------------------------------------------------
+
+  def full_name
+    "#{self.first_name} #{self.last_name}"
+  end
+
+  def win_array
+    win_arr = self.standings.select {|result| result.wins == true}
+  end
+end

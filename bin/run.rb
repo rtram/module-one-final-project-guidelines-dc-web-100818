@@ -2,16 +2,7 @@ require_relative '../config/environment'
 
 
   def greeting
-    # puts
-    # "______                        _         __    _____      _        _
-    # |  ___|                       | |       /  |  |  _  \    | |      | |
-    # | |_ ___  _ __ _ __ ___  _   _| | __ _  `| |  | | | |___ | |_ ____| |__   ____ ___  ___
-    # |  _/ _ \|  __|  _   _ \| | | | |/ _  |  | |  | | | / _  | __ / _ |  _  \/ _  / __|/ _  \
-    # | || (_) | |  | | | | | | |_| | | (_| | _| |_ | |/ / (_| | || (_| | |_) | (_| \__ \  __/
-    # \_| \___/|_|  |_| |_| |_|\__,_|_|\__,_| \___/ |___/ \__,_|\__\__,_|_.__/ \__,_|___/\___|
-    #
-    # "
-
+    # put
     puts "Welcome to the Formula 1 Database!"
     puts ""
     puts "Your number one source for Formula 1!"
@@ -58,5 +49,5 @@ require_relative '../config/environment'
     goodbye
   end
 
-binding.pry
+runner
 0
