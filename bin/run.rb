@@ -2,7 +2,9 @@ require_relative '../config/environment'
 
 
   def greeting
-    # put
+    font = TTY::Font.new(:doom)
+    puts font.write("Formula    1")
+    puts font.write(" Database")
     puts "Welcome to the Formula 1 Database!"
     puts ""
     puts "Your number one source for Formula 1!"

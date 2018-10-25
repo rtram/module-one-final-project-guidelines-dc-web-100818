@@ -6,3 +6,8 @@ gem "sqlite3"
 gem "pry"
 gem "require_all"
 gem 'csv'
+
+gem 'tty-font'
+
+gem 'rspec'
+gem 'database_cleaner'
