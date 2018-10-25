@@ -70,18 +70,20 @@ class Circuit < ActiveRecord::Base
 
   def circuit_query_prompt
     puts "What would you like know about #{self.name}? Select a number below."
+    puts ""
     puts "1. How many races has taken place at #{self.name}?"
     puts "2. When was the first race held at #{self.name}?"
     puts "3. When was the most recent race held at #{self.name}?"
-    puts "4. Go back to the Circuit Search to look for another circuit."
-    puts "5. Exit database."
+    puts "4. Where is this circuit located?"
+    puts "5. Who won the last race that took place at #{self.name}?"
+    puts "6. Go back to the Circuit Search to look for another circuit."
+    puts "7. Exit database."
   end
 
   def circuit_query
     self.circuit_query_prompt
     puts "-----------------------------------------"
     input = gets.chomp
-    puts "-----------------------------------------"
     if input == "1"
       puts "-----------------------------------------"
       puts self.race_count
@@ -95,8 +97,16 @@ class Circuit < ActiveRecord::Base
       puts self.most_recent_race
       puts "-----------------------------------------"
     elsif input == "4"
-      return "back"
+      puts "-----------------------------------------"
+      puts self.circuit_by_location
+      puts "-----------------------------------------"
     elsif input == "5"
+      puts "-----------------------------------------"
+      puts self.most_recent_winner
+      puts "-----------------------------------------"
+    elsif input == "6"
+      return "back"
+    elsif input == "7"
       return "exit"
     else
       puts "-----------------------------------------"
@@ -118,6 +128,14 @@ class Circuit < ActiveRecord::Base
     "The most recent date at #{self.name} was on #{self.circuit_by_date[-1].date}."
   end
 
+  def circuit_by_location
+    "#{self.name} is located in #{self.city}, #{self.country}."
+  end
+
+  def most_recent_winner
+    winner = Driver.find(self.circuit_by_date[-1].standings[0].driver_id).full_name
+    puts "The most recent winner at #{self.name} was #{winner}."
+  end
 
 #HELPER METHODS ----------------------------------------------------------------
 
@@ -134,5 +152,5 @@ class Circuit < ActiveRecord::Base
     self.races.sort_by {|race| race.date}
   end
 
-  
+
 end
