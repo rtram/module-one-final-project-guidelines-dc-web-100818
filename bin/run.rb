@@ -18,17 +18,19 @@ end
 
 
 def driver_or_circuits
+  input = nil
+  until input == "exit"
+    category_prompt
     input = user_input
-  if ["F1 Driver", "driver", "DRIVER", "drivers", "DRIVERS"].include? (input)
-    Driver.driver_search
-  elsif ["Circuit", "circuit", "CIRCUIT", "Circuits", "circuits"].include? (input)
-    circuit_selection = Circuit.circuit_search
-    Circuit.run_circuit(circuit_selection)
+    if ["F1 Driver", "driver", "DRIVER", "drivers", "DRIVERS"].include? (input)
+      Driver.driver_search
+    elsif ["Circuit", "circuit", "CIRCUIT", "Circuits", "circuits"].include? (input)
+      Circuit.circuit_search
+    end
   end
 end
 
 def main_menu
-  category_prompt
   driver_or_circuits
 end
 

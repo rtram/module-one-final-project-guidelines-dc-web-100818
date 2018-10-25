@@ -12,23 +12,24 @@ class Circuit < ActiveRecord::Base
       input_integer = input.to_i
       if input_integer.between?(1,10)
         circuit_obj = Circuit.circuit_obj_return(input_integer)
-        circuit_obj
+        Circuit.run_circuit(circuit_obj)
       elsif input_integer == 11
-        Circuit.circuit_extended_search
+        circuit_obj = Circuit.circuit_extended_search
+        Circuit.run_circuit(circuit_obj)
+      elsif input == "exit"
+        return "exit"
       end
     end
   end
-
-  def circuit_query_until_loop
-
-  end 
+  
 
   def self.run_circuit(circuit)
     puts "What would you like know about #{circuit.name}? Select a number below."
     puts "1. How many races has taken place at #{circuit.name}?"
     puts "2. When was the first race held at #{circuit.name}?"
     puts "3. When was the most recent race held at #{circuit.name}?"
-    puts "4. Exit to circuit menu."
+    puts "-----------------------------------------"
+    puts "Type 'exit' to go back to the circuit menu."
     circuit.circuit_query
   end
 
@@ -49,8 +50,8 @@ class Circuit < ActiveRecord::Base
       puts self.most_recent_race
       puts "-----------------------------------------"
       Circuit.run_circuit(self)
-    elsif input == "4"
-      main_menu
+    elsif input == "exit"
+      return "exit"
     else
       puts "-----------------------------------------"
       puts "Oops that is not an option, please try again."
@@ -120,7 +121,6 @@ class Circuit < ActiveRecord::Base
       puts "Oops that is not an option, please try again."
       Circuit.circuit_extended_search
     end
-    binding.pry
   end
 
   def circuit_by_date
