@@ -5,9 +5,11 @@ class Driver < ActiveRecord::Base
 #2nd Level Down Driver Menu-----------------------------------------------------
 
   def self.driver_search
-      puts "Please enter a driver name to search, type 'exit' to leave the database, or type 'back' to return to the main screen."
+      puts "Please enter a driver name to search, type 'exit' to leave the database, or type 'back' to return to the main screen. Below are the top ten F1 drivers of all time, if you're unsure what to search:"
+      Driver.driver_suggestions
       puts "-----------------------------------------"
-      driver = Driver.one_or_more_string_driver_search
+      input = gets.chomp
+      driver = Driver.one_or_more_string_driver_search(input)
       if driver.length == 1
         driver_obj = Driver.find(driver[0].id)
         puts "#{driver_obj.full_name} has been found!"
@@ -29,8 +31,21 @@ class Driver < ActiveRecord::Base
       end
     end
 
-  def self.one_or_more_string_driver_search
-    input = gets.chomp
+  def self.driver_suggestions
+    puts "-----------------------------------------"
+    puts "Lewis Hamilton"
+    puts "Juan Manuel Fangio"
+    puts "Alain Prost"
+    puts "Michael Schumacher"
+    puts "Jim Clark"
+    puts "Ayrton Senna"
+    puts "Fernando Alonso"
+    puts "Nelson Piquet"
+    puts "Jackie Stewart"
+    puts "Emerson Fittipaldi"
+  end
+
+  def self.one_or_more_string_driver_search(input)
     split_input = input.split(" ")
     puts "-----------------------------------------"
     if split_input.length > 1
@@ -115,7 +130,7 @@ class Driver < ActiveRecord::Base
     puts "2. How many career losses does #{self.full_name} have?"
     puts "3. How many wins has #{self.full_name} had in a given year?"
     puts "4. What is #{self.full_name}'s nationality?"
-    puts "5. What is #{self.full_name}'s' date of birth?"
+    puts "5. What is #{self.full_name}'s date of birth?"
     puts "6. Which circuit has #{self.full_name} raced on the most?"
     puts "7. Go back to the Driver Search to look for another driver."
     puts "8. Exit database."
