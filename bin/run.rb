@@ -1,6 +1,5 @@
 require_relative '../config/environment'
 
-
   def greeting
     font = TTY::Font.new(:doom)
     puts font.write("Formula    1")

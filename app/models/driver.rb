@@ -7,10 +7,7 @@ class Driver < ActiveRecord::Base
   def self.driver_search
       puts "Please enter a driver name to search, type 'exit' to leave the database, or type 'back' to return to the main screen."
       puts "-----------------------------------------"
-      input = gets.chomp
-      puts "-----------------------------------------"
-      driver = Driver.select("id").where(["first_name LIKE ? OR last_name LIKE ?",
-        "%#{input}%", "%#{input}%"])
+      driver = Driver.one_or_more_string_driver_search
       if driver.length == 1
         driver_obj = Driver.find(driver[0].id)
         puts "#{driver_obj.full_name} has been found!"
@@ -32,6 +29,18 @@ class Driver < ActiveRecord::Base
       end
     end
 
+  def self.one_or_more_string_driver_search
+    input = gets.chomp
+    split_input = input.split(" ")
+    puts "-----------------------------------------"
+    if split_input.length > 1
+      driver = Driver.select("id").where(["first_name LIKE ? OR last_name LIKE ?",
+        "%#{split_input[0]}%", "%#{split_input[1]}%"])
+    else
+      driver = Driver.select("id").where(["first_name LIKE ? OR last_name LIKE ?",
+        "%#{split_input[0]}%", "%#{split_input[0]}%"])
+    end
+  end
 
   def self.multiple_drivers_logic(driver)
     multi_driver_arr = driver.collect do |n|
