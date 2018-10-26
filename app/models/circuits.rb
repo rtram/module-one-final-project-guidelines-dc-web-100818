@@ -2,7 +2,7 @@ class Circuit < ActiveRecord::Base
   has_many :races
   has_many :standings, through: :races
 
-#COMMAND LINE METHODS
+#2ND LEVEL DOWN: CIRCUIT MENU --------------------------------------------------
 
   def self.circuit_search
     Circuit.circuit_search_prompt
@@ -58,15 +58,16 @@ class Circuit < ActiveRecord::Base
     end
   end
 
+#3RD LEVEL DOWN: CIRCUIT INFORMATION MENU---------------------------------------
 
-    def circuit_query_until_loop
-      input = nil
-      until ["back1", "exit"].include? input
-        input = self.circuit_query
-        input
-      end
-      return input
+  def circuit_query_until_loop
+    input = nil
+    until ["back1", "exit"].include? input
+      input = self.circuit_query
+      input
     end
+    return input
+  end
 
   def circuit_query_prompt
     puts "What would you like know about #{self.name}? Select a number below."
@@ -115,7 +116,7 @@ class Circuit < ActiveRecord::Base
     end
   end
 
-#INSTANCE METHODS --------------------------------------------------------------
+#INSTANCE METHODS CALLED IN CIRCUIT INFORMATION MENU----------------------------
   def race_count
      "#{self.races.length} races have occurred at #{self.name}."
   end
@@ -137,7 +138,7 @@ class Circuit < ActiveRecord::Base
     "The most recent winner at #{self.name} was #{winner}."
   end
 
-#HELPER METHODS ----------------------------------------------------------------
+#HELPER METHODS: USED THROUGHOUT CIRCUIT MODULE---------------------------------
 
   def self.top_ten
     Circuit.circuit_sort[0...10]
@@ -151,6 +152,4 @@ class Circuit < ActiveRecord::Base
   def circuit_by_date
     self.races.sort_by {|race| race.date}
   end
-
-
 end

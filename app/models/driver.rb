@@ -2,7 +2,7 @@ class Driver < ActiveRecord::Base
   has_many :standings
   has_many :races, through: :standings
 
-#2nd Level Down Driver Menu-----------------------------------------------------
+#2ND LEVEL DOWN: DRIVER SEARCH MENU---------------------------------------------
 
   def self.driver_search
       puts "Please enter a driver name to search, type 'exit' to leave the database, or type 'back' to return to the main screen. Below are the top ten F1 drivers of all time, if you're unsure what to search:"
@@ -69,7 +69,7 @@ class Driver < ActiveRecord::Base
     driver_obj
   end
 
-  #3rd Level Down Driver Stats Menu --------------------------------------------
+#3RD LEVEL DOWN: DRIVER INFORMATION MENU----------------------------------------
 
   def driver_query_until_loop
     input = nil
@@ -136,9 +136,7 @@ class Driver < ActiveRecord::Base
     puts "8. Exit database."
   end
 
-
-#INSTANCE METHODS --------------------------------------------------------------
-
+#INSTANCE METHODS CALLED IN DRIVER INFORMATION MENU-----------------------------
 
   def wins
     win_arr = self.win_array
@@ -173,8 +171,7 @@ class Driver < ActiveRecord::Base
     "#{self.full_name}'s loves racing at the #{sorted_faves[0][0]}."
   end
 
-
-#HELPER METHODS-----------------------------------------------------------------
+#HELPER METHODS USED THROUGHOUT DRIVER MODULE-----------------------------------
 
   def full_name
     "#{self.first_name} #{self.last_name}"
